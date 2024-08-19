@@ -1,0 +1,71 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+class StoreOrder {
+private:
+    static const double minerCost;
+    static const double toasterCost;
+    static const double fanCost;
+
+    static const double minerDiscount;
+    static const double toasterDiscount;
+    static const double fanDiscount;
+
+    static const double salesTax;
+
+public:
+    static double calculateDiscountedPrice(double cost, double discount) {
+        return cost - (cost * discount / 100);
+    }
+
+    static double calculateFinalPrice(double costAfterDiscount) {
+        return costAfterDiscount + (costAfterDiscount * salesTax / 100);
+    }
+
+    static double calculateTotalAmount(int miners, int toasters, int fans) {
+       
+        double minerPrice = calculateDiscountedPrice(minerCost, minerDiscount);
+        double toasterPrice = calculateDiscountedPrice(toasterCost, toasterDiscount);
+        double fanPrice = calculateDiscountedPrice(fanCost, fanDiscount);
+
+       
+        double totalCost = (miners * minerPrice) + (toasters * toasterPrice) + (fans * fanPrice);
+
+        
+        return calculateFinalPrice(totalCost);
+    }
+
+    
+    static void displayTotalAmount(int miners = 0, int toasters = 0, int fans = 0) {
+        double totalAmount = calculateTotalAmount(miners, toasters, fans);
+        cout << fixed << setprecision(2);
+        cout << "Total amount to be paid by the store: Rs. " << totalAmount << endl;
+    }
+};
+
+
+const double StoreOrder::minerCost = 1500.0;
+const double StoreOrder::toasterCost = 200.0;
+const double StoreOrder::fanCost = 450.0;
+
+const double StoreOrder::minerDiscount = 5.0;
+const double StoreOrder::toasterDiscount = 10.0;
+const double StoreOrder::fanDiscount = 15.0;
+
+const double StoreOrder::salesTax = 10.0;
+
+int main() {
+    int miners, toasters, fans;
+
+    cout << "Enter the number of miners: ";
+    cin >> miners;
+    cout << "Enter the number of toasters: ";
+    cin >> toasters;
+    cout << "Enter the number of fans: ";
+    cin >> fans;
+
+    StoreOrder::displayTotalAmount(miners, toasters, fans);
+
+    return 0;
+}
